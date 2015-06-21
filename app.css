@@ -1,0 +1,98 @@
+@font-face {
+  font-family: 'Material Icons';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Material Icons'), local('MaterialIcons-Regular'), url(material-design-icons/MaterialIcons-Regular.woff2) format('woff2'), url(material-design-icons/MaterialIcons-Regular.woff) format('woff'), url(material-design-icons/MaterialIcons-Regular.ttf) format('truetype');
+}
+.material-icons {
+  font-family: 'Material Icons';
+  font-weight: normal;
+  font-style: normal;
+  font-size: 24px;
+  color: inherit;
+  display: inline-block;
+  line-height: 1;
+  text-transform: none;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-font-feature-settings: 'liga';
+  font-feature-settings: 'liga';
+}
+.material-icons.md-18 {
+  font-size: 18px;
+}
+.material-icons.md-36 {
+  font-size: 36px;
+}
+.material-icons.md-48 {
+  font-size: 48px;
+}
+.material-icons.md-dark {
+  color: rgba(0, 0, 0, 0.54);
+}
+.material-icons.md-light {
+  color: #fff;
+}
+html,
+body,
+body > md-content {
+  background-color: #f5f5f5 !important;
+  -moz-osx-font-smoothing: grayscale;
+}
+a {
+  text-decoration: none;
+  color: #2196f3;
+}
+a:hover {
+  text-decoration: underline;
+  cursor: pointer;
+}
+body > md-toolbar {
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+}
+body > md-content {
+  -webkit-flex: 1 1 auto;
+      -ms-flex: 1 1 auto;
+          flex: 1 1 auto;
+}
+body > md-content > div {
+  -webkit-flex: 1 0 auto;
+      -ms-flex: 1 0 auto;
+          flex: 1 0 auto;
+  padding: 8px;
+}
+body > md-content > div > md-card {
+  margin: 0;
+  overflow: hidden;
+}
+@media all and (min-width: 601px) {
+  body > md-content > div > md-card {
+    -webkit-flex: 1 1 auto;
+        -ms-flex: 1 1 auto;
+            flex: 1 1 auto;
+    max-width: 700px;
+  }
+}
+body > md-content footer {
+  -webkit-flex: 0 0 auto;
+      -ms-flex: 0 0 auto;
+          flex: 0 0 auto;
+}
+body > md-content footer > footer-content {
+  min-height: 64px;
+  padding: 0 16px 16px;
+  background-color: #fff;
+  color: rgba(0, 0, 0, 0.54);
+  font-size: 14px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+}
+body > md-content footer > footer-content > div {
+  margin-top: 16px;
+}
+body > md-content footer > footer-content > div:not(:last-child) {
+  margin-right: 24px;
+}
+body > md-content footer > footer-content > div > *:not(span) + *:not(span) {
+  margin-left: 24px;
+}
