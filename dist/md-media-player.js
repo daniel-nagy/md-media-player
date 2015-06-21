@@ -300,7 +300,7 @@ angular.module('md.media.player')
     
     function onEnd() {
       if(scope.album.hasNextTrack()) {
-        $audio.set(scope.album.nextTrack().title);
+        $audio.set(attrs.src.replace('${track-title}', scope.album.nextTrack().title));
         $audio.play();
       }
     }
