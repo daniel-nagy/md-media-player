@@ -231,62 +231,66 @@ angular.module('md.media.player').factory('$audio', function () {
   };
 });
 
-angular.module('md.media.player').directive('mdMediaPlayer', ['$album', '$audio', function ($album, $audio) {
+angular.module('md.media.player')
+  
+.controller('mdMediaPlayerController', ['$attrs', '$audio', '$element', '$scope', function controller($attrs, $audio, $element, $scope) {
   'use strict';
   
-  function controller($scope, $element, $attrs) {
-    $scope.audio = $audio;
+  $scope.audio = $audio;
+  
+  $scope.getBuffer = function () {
+    return ($audio.buffered() / $audio.duration()) * 100;
+  };
+  
+  $scope.getValue = function () {
+    return ($audio.currentTime() / $audio.duration()) * 100;
+  };
+  
+  $scope.selectTrack = function (track, index) {
+    $scope.album.selectTrack(index);
+    $audio.set($attrs.src.replace('${track-title}', track.title));
+    $audio.play();
+  };
+  
+  $scope.selectNext = function () {
+    var playing = $audio.isPlaying();
     
-    $scope.getBuffer = function () {
-      return ($audio.buffered() / $audio.duration()) * 100;
-    };
+    $audio.set($attrs.src.replace('${track-title}', $scope.album.nextTrack().title));
     
-    $scope.getValue = function () {
-      return ($audio.currentTime() / $audio.duration()) * 100;
-    };
-    
-    $scope.selectTrack = function (track, index) {
-      $scope.album.selectTrack(index);
-      $audio.set($attrs.src.replace('${track-title}', track.title));
+    if(playing) {
       $audio.play();
-    };
+    }
+  };
+  
+  $scope.selectPrevious = function () {
+    var playing = $audio.isPlaying();
     
-    $scope.selectNext = function () {
-      var playing = $audio.isPlaying();
-      
-      $audio.set($attrs.src.replace('${track-title}', $scope.album.nextTrack().title));
-      
-      if(playing) {
-        $audio.play();
-      }
-    };
+    $audio.set($attrs.src.replace('${track-title}', $scope.album.previousTrack().title));
     
-    $scope.selectPrevious = function () {
-      var playing = $audio.isPlaying();
-      
-      $audio.set($attrs.src.replace('${track-title}', $scope.album.previousTrack().title));
-      
-      if(playing) {
-        $audio.play();
-      }
-    };
-    
-    $scope.toggleRepeat = function () {
-      if($audio.isRepeatEnabled()) {
-        $audio.repeatOff();
-      } else {
-        $audio.repeatOn();
-      }
-    };
-    
-    $scope.toggleShuffle = function () {
-      if($scope.album.isShuffled()) {
-        $scope.album.unShuffle();
-      } else {
-        $scope.album.shuffle();
-      }
-    };
-  }
+    if(playing) {
+      $audio.play();
+    }
+  };
+  
+  $scope.toggleRepeat = function () {
+    if($audio.isRepeatEnabled()) {
+      $audio.repeatOff();
+    } else {
+      $audio.repeatOn();
+    }
+  };
+  
+  $scope.toggleShuffle = function () {
+    if($scope.album.isShuffled()) {
+      $scope.album.unShuffle();
+    } else {
+      $scope.album.shuffle();
+    }
+  };
+}])
+
+.directive('mdMediaPlayer', ['$album', '$audio', function ($album, $audio) {
+  'use strict';
   
   function postLink(scope, element, attrs) {
     var progress = element.find('md-progress-linear');
@@ -341,8 +345,7 @@ angular.module('md.media.player').directive('mdMediaPlayer', ['$album', '$audio'
   
   return {
     templateUrl: 'templates.media-player.html',
-    controller: controller,
-    controllerAs: 'ctrl',
+    controller: 'mdMediaPlayerController',
     link: postLink
   };
 }])
