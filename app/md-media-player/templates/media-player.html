@@ -55,7 +55,7 @@
   </md-toolbar>
   
   
-  <md-content layout="column" flex ng-show="showTracks">
+  <md-content layout="column" ng-show="showTracks">
     <div class="track-list" layout="column">
       <md-track layout="row" layout-align="start center" ng-repeat="track in album.tracks" ng-click="selectTrack(track, $index)">
         <div class="track-number">{{track.number | zeroPad}}</div>

@@ -447,7 +447,7 @@ angular.module('templates.media-player.html', []).run(['$templateCache', functio
     '  </md-toolbar>\n' +
     '  \n' +
     '  \n' +
-    '  <md-content layout="column" flex ng-show="showTracks">\n' +
+    '  <md-content layout="column" ng-show="showTracks">\n' +
     '    <div class="track-list" layout="column">\n' +
     '      <md-track layout="row" layout-align="start center" ng-repeat="track in album.tracks" ng-click="selectTrack(track, $index)">\n' +
     '        <div class="track-number">{{track.number | zeroPad}}</div>\n' +

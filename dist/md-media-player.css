@@ -116,6 +116,9 @@ md-media-player > div:nth-child(2) > md-toolbar > .md-toolbar-tools > .md-button
   margin-right: -12px;
 }
 md-media-player > div:nth-child(2) > md-content {
+  -webkit-flex: 1 1 auto;
+      -ms-flex: 1 1 auto;
+          flex: 1 1 auto;
   background-color: #fff;
 }
 md-media-player > div:nth-child(2) > md-content > .track-list {
