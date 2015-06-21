@@ -1,0 +1,69 @@
+<div layout="column">
+  
+  <img ng-src="{{album.artworkUrl}}"></img>
+  
+  <md-toolbar class="now-playing-toolbar">
+    
+    <md-progress-linear class="md-accent" md-mode="buffer" value="{{getValue()}}" md-buffer-value="{{getBuffer()}}"></md-progress-linear>
+    
+    <div layout="row" layout-align="space-between center">
+      <div class="md-subhead">{{album.currentTrack().title}}</div>
+      <div class="track-duration">{{audio.currentTime() | playBack}}</div>
+    </div>
+    
+    <div layout="row" layout-align="space-between">
+      <div layout="row">
+        <md-button class="md-icon-button" aria-label="Previous" ng-disabled="!album.hasPreviousTrack()" ng-click="selectPrevious()">
+          <md-icon md-svg-icon="templates.skip-previous.html"></imd-icon>
+        </md-button>
+        <md-button class="md-icon-button" aria-label="{{audio.isPlaying() ? Pause : Play}}" ng-click="audio.isPlaying() ? audio.pause() : audio.play()">
+          <md-icon md-svg-icon="{{audio.isPlaying() ? 'templates.pause.html' : 'templates.play.html'}}"></imd-icon>
+        </md-button>
+        <md-button class="md-icon-button" aria-label="Next" ng-disabled="!album.hasNextTrack()" ng-click="selectNext()">
+          <md-icon md-svg-icon="templates.skip-next.html"></imd-icon>
+        </md-button>
+      </div>
+      <div layout="row">
+        <md-button class="md-icon-button" aria-label="Shuffle" ng-click="toggleShuffle()" ng-class="{active: album.isShuffled()}">
+          <md-icon md-svg-icon="templates.shuffle.html"></imd-icon>
+        </md-button>
+        <md-button class="md-icon-button" aria-label="Repeat" ng-click="toggleRepeat()" ng-class="{active: audio.isRepeatEnabled()}">
+          <md-icon md-svg-icon="templates.repeat.html"></imd-icon>
+        </md-button>
+      </div>
+    </div>
+    
+  </md-toolbar>
+  
+</div>
+
+<div layout="column">
+  
+  <md-toolbar>
+    <div class="md-toolbar-tools" layout-align="space-between">
+      
+      <div layout="column">
+        <div class="md-title">{{album.title}}</div>
+        <div class="md-subhead">{{album.artist}} &middot; {{album.release}}</div>
+      </div>
+      
+      <md-button class="md-icon-button" aria-label="Toggle Tracks" ng-click="showTracks = !showTracks">
+        <md-icon md-svg-icon="templates.list.html"></imd-icon>
+      </md-button>
+      
+    </div>
+  </md-toolbar>
+  
+  
+  <md-content layout="column" flex ng-show="showTracks">
+    <div class="track-list" layout="column">
+      <md-track layout="row" layout-align="start center" ng-repeat="track in album.tracks" ng-click="selectTrack(track, $index)">
+        <div class="track-number">{{track.number | zeroPad}}</div>
+        <div class="track-title">{{track.title}}</div>
+        <md-icon md-svg-icon="{{audio.isPlaying() ? 'templates.volume-up.html' : 'templates.volume-mute.html'}}" ng-if="album._current === $index"></md-icon>
+        <div class="track-duration">{{track.duration | playBack}}</div>
+      </md-track>
+    </div>
+  </md-content>
+  
+</div>

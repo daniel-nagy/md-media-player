@@ -1,0 +1,66 @@
+@import 'icons.less';
+
+@md-media-sm: 600px;
+@md-media-gt-sm: (@md-media-sm + 1px);
+
+html, body, body > md-content {
+  background-color: darken(#fff, 4%) !important;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+a {
+  text-decoration: none;
+  color: rgb(33,150,243);
+}
+a:hover {
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+body > md-toolbar {
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+}
+
+body > md-content {
+  flex: 1 1 auto;
+  
+  > div {
+    flex: 1 0 auto;
+    padding: 8px;
+    
+    > md-card {
+      margin: 0;
+      overflow: hidden;
+      
+      @media all and (min-width: @md-media-gt-sm) {
+        flex: 1 1 auto;
+        max-width: 700px;
+      }
+    }
+  }
+  
+  footer {
+    flex: 0 0 auto;
+  
+    > footer-content {
+      min-height: 64px;
+      padding: 0 16px 16px;
+      background-color: #fff;
+      color: rgba(0, 0, 0, 0.54);
+      font-size: 14px;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+      
+      > div {
+        margin-top: 16px;
+        
+        &:not(:last-child) {
+          margin-right: 24px;
+        }
+        
+        > *:not(span) + *:not(span) {
+          margin-left: 24px;
+        }
+      }
+    }
+  }
+}

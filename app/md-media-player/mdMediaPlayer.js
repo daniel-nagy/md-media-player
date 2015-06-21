@@ -1,0 +1,1 @@
+angular.module('md.media.player', ['md.media.templates']);

@@ -1,0 +1,210 @@
+@import 'md-variables';
+@import 'mixins/overflow-ellipsis';
+
+md-media-player {
+  display: flex;
+  position: relative;
+  overflow: hidden;
+  
+  > div:first-child {
+    flex: 0 0 auto;
+    width: 288px;
+    z-index: 1;
+    
+    > img {
+      flex: 0 0 auto;
+      display: flex;
+      width: 100%;
+    }
+    
+    > .now-playing-toolbar {
+      flex: 0 0 auto;
+      
+      > md-progress-linear {
+        position: absolute;
+        height: 3px;
+        top: -6px;
+        
+        &:hover {
+          cursor: pointer;
+        }
+        
+        > .md-container {
+          height: 3px;
+          top: 3px;
+          
+          &:not(.md-ready) {
+            transform: translate(0, 3px) scale(1, 0);
+          }
+          
+          > .md-dashed:before {
+            height: 3px;
+          }
+          
+          > .md-bar {
+            height: 3px;
+          }
+        }
+      }
+      
+      > div:first-of-type {
+        padding: 16px 16px 0;
+        
+        > .md-subhead {
+          font-weight: 500;
+          .overflow-ellipsis();
+        }
+        
+        > .track-duration {
+          margin-left: 16px;
+          font-size: 14px;
+          font-weight: 500;
+          color: @md-light-secondary;
+        }
+      }
+      
+      > div:nth-of-type(2) {
+        padding: 2px;
+        
+        > div > .md-button.md-icon-button {
+          margin: 0;
+          
+          > md-icon {
+            transition: fill 0.25s;
+          }
+          
+          &[disabled] > md-icon {
+            fill: @md-light-disabled;
+          }
+          
+          &.active > md-icon {
+            fill: rgb(248, 187, 208);
+          }
+        }
+      }
+    }
+  }
+  
+  > div:nth-child(2) {
+    flex: 1 1 auto;
+    min-width: 288px;
+    z-index: 0;
+    
+    > md-toolbar {
+      transition: box-shadow 0.25s;
+      
+      &.elevate {
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+      }
+      
+      > .md-toolbar-tools {
+        
+        > div:first-child {
+          flex: 0 1 auto;
+          
+          > .md-title, > .md-subhead {
+            .overflow-ellipsis();
+          }
+        }
+        
+        > .md-button.md-icon-button {
+          flex: 0 0 auto;
+        }
+        
+        > .md-button:last-child {
+          margin-right: -12px;
+        }
+      }
+    }
+    
+    > md-content {
+      background-color: #fff;
+      
+      > .track-list {
+        width: 100%;
+        padding: 8px 0;
+        position: absolute;
+        
+        > md-track {
+          position: relative;
+          height: 48px;
+          padding: 0 16px;
+          
+          &:hover {
+            cursor: pointer;
+          }
+          
+          &:focus {
+            outline: 0;
+          }
+          
+          > .track-number {
+            margin-right: 16px;
+          }
+          
+          > .track-title {
+            margin-right: 16px;
+            flex: 1 1 auto;
+            .overflow-ellipsis();
+          }
+          
+          > md-icon {
+            margin-right: 16px;
+            height: 18px;
+            width: 18px;
+          }
+          
+          > .track-duration {
+            font-size: 14px;
+            color: @md-dark-secondary;
+          }
+        }
+      }
+    }
+  }
+  
+  @media all and (min-width: @md-media-gt-sm) {
+    > div:nth-child(1) {
+      box-shadow: 1px 0 3px rgba(0, 0, 0, 0.12), 1px 0 2px rgba(0, 0, 0, 0.24);
+    }
+    
+    > div:nth-child(2) {
+      > md-toolbar > .md-toolbar-tools {
+        background-color: #fff;
+        color: @md-dark;
+        
+        > .md-button {
+          display: none;
+        }
+      }
+      > md-content.ng-hide:not(.ng-hide-animate) {
+        display: block !important;
+      }
+    }
+  }
+  
+  @media all and (max-width: @md-media-sm) {
+    flex-direction: column;
+    width: 288px;
+    
+    > div:nth-child(2) {
+      
+      > md-toolbar {
+        min-width: auto;
+        
+        > .md-toolbar-tools {
+          padding: 0 16px 16px;
+        }
+      }
+      
+      > md-content {
+        height: 250px;
+        transition: height 0.3s ease-in-out;
+        
+        &.ng-hide {
+          height: 0;
+        }
+      }
+    }
+  }
+}
