@@ -24,7 +24,8 @@ md-media-player > div:first-child > img {
   display: -webkit-flex;
   display: -ms-flexbox;
   display: flex;
-  width: 100%;
+  width: 288px;
+  height: 288px;
 }
 md-media-player > div:first-child > .now-playing-toolbar {
   -webkit-flex: 0 0 auto;
@@ -34,18 +35,18 @@ md-media-player > div:first-child > .now-playing-toolbar {
 md-media-player > div:first-child > .now-playing-toolbar > md-progress-linear {
   position: absolute;
   height: 3px;
-  top: -6px;
+  top: -3px;
+  /* top: -6px; */
 }
 md-media-player > div:first-child > .now-playing-toolbar > md-progress-linear:hover {
   cursor: pointer;
 }
 md-media-player > div:first-child > .now-playing-toolbar > md-progress-linear > .md-container {
   height: 3px;
-  top: 3px;
-}
-md-media-player > div:first-child > .now-playing-toolbar > md-progress-linear > .md-container:not(.md-ready) {
-  -webkit-transform: translate(0, 3px) scale(1, 0);
-          transform: translate(0, 3px) scale(1, 0);
+  /* top: 3px; */
+  /* &:not(.md-ready) {
+            transform: translate(0, 3px) scale(1, 0);
+          } */
 }
 md-media-player > div:first-child > .now-playing-toolbar > md-progress-linear > .md-container > .md-dashed:before {
   height: 3px;
@@ -115,32 +116,36 @@ md-media-player > div:nth-child(2) > md-toolbar > .md-toolbar-tools > .md-button
 md-media-player > div:nth-child(2) > md-toolbar > .md-toolbar-tools > .md-button:last-child {
   margin-right: -12px;
 }
-md-media-player > div:nth-child(2) > md-content {
+md-media-player > div:nth-child(2) > .tracks {
   -webkit-flex: 1 1 auto;
       -ms-flex: 1 1 auto;
           flex: 1 1 auto;
   background-color: #fff;
+  position: relative;
+  overflow-y: auto;
+  overflow-x: hidden;
+  -webkit-overflow-scrolling: touch;
 }
-md-media-player > div:nth-child(2) > md-content > .track-list {
+md-media-player > div:nth-child(2) > .tracks > .track-list {
   width: 100%;
   padding: 8px 0;
   position: absolute;
 }
-md-media-player > div:nth-child(2) > md-content > .track-list > md-track {
+md-media-player > div:nth-child(2) > .tracks > .track-list > .track {
   position: relative;
   height: 48px;
   padding: 0 16px;
 }
-md-media-player > div:nth-child(2) > md-content > .track-list > md-track:hover {
+md-media-player > div:nth-child(2) > .tracks > .track-list > .track:hover {
   cursor: pointer;
 }
-md-media-player > div:nth-child(2) > md-content > .track-list > md-track:focus {
+md-media-player > div:nth-child(2) > .tracks > .track-list > .track:focus {
   outline: 0;
 }
-md-media-player > div:nth-child(2) > md-content > .track-list > md-track > .track-number {
+md-media-player > div:nth-child(2) > .tracks > .track-list > .track > .track-number {
   margin-right: 16px;
 }
-md-media-player > div:nth-child(2) > md-content > .track-list > md-track > .track-title {
+md-media-player > div:nth-child(2) > .tracks > .track-list > .track > .track-title {
   margin-right: 16px;
   -webkit-flex: 1 1 auto;
       -ms-flex: 1 1 auto;
@@ -149,12 +154,12 @@ md-media-player > div:nth-child(2) > md-content > .track-list > md-track > .trac
   white-space: nowrap;
   text-overflow: ellipsis;
 }
-md-media-player > div:nth-child(2) > md-content > .track-list > md-track > md-icon {
+md-media-player > div:nth-child(2) > .tracks > .track-list > .track > md-icon {
   margin-right: 16px;
   height: 18px;
   width: 18px;
 }
-md-media-player > div:nth-child(2) > md-content > .track-list > md-track > .track-duration {
+md-media-player > div:nth-child(2) > .tracks > .track-list > .track > .track-duration {
   font-size: 14px;
   color: rgba(0, 0, 0, 0.54);
 }
@@ -169,8 +174,10 @@ md-media-player > div:nth-child(2) > md-content > .track-list > md-track > .trac
   md-media-player > div:nth-child(2) > md-toolbar > .md-toolbar-tools > .md-button {
     display: none;
   }
-  md-media-player > div:nth-child(2) > md-content.ng-hide:not(.ng-hide-animate) {
-    display: block !important;
+  md-media-player > div:nth-child(2) > .tracks.ng-hide:not(.ng-hide-animate) {
+    display: -webkit-flex !important;
+    display: -ms-flexbox !important;
+    display: flex !important;
   }
 }
 @media all and (max-width: 600px) {
@@ -186,11 +193,11 @@ md-media-player > div:nth-child(2) > md-content > .track-list > md-track > .trac
   md-media-player > div:nth-child(2) > md-toolbar > .md-toolbar-tools {
     padding: 0 16px 16px;
   }
-  md-media-player > div:nth-child(2) > md-content {
+  md-media-player > div:nth-child(2) > .tracks {
     height: 250px;
     transition: height 0.3s ease-in-out;
   }
-  md-media-player > div:nth-child(2) > md-content.ng-hide {
+  md-media-player > div:nth-child(2) > .tracks.ng-hide {
     height: 0;
   }
 }

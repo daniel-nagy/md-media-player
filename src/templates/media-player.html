@@ -4,7 +4,7 @@
   
   <md-toolbar class="now-playing-toolbar">
     
-    <md-progress-linear class="md-accent" md-mode="buffer" value="{{getValue()}}" md-buffer-value="{{getBuffer()}}"></md-progress-linear>
+    <md-progress-linear ng-show="audio.isSet()" class="md-accent" md-mode="buffer" value="{{getValue()}}" md-buffer-value="{{getBuffer()}}"></md-progress-linear>
     
     <div layout="row" layout-align="space-between center">
       <div class="md-subhead">{{album.currentTrack().title}}</div>
@@ -55,15 +55,15 @@
   </md-toolbar>
   
   
-  <md-content layout="column" ng-show="showTracks">
+  <md-tracks layout="column" class="tracks" ng-show="showTracks">
     <div class="track-list" layout="column">
-      <md-track layout="row" layout-align="start center" ng-repeat="track in album.tracks" ng-click="selectTrack(track, $index)">
+      <div layout="row" layout-align="start center" md-ink-ripple class="track" ng-repeat="track in album.tracks" ng-click="selectTrack(track, $index)">
         <div class="track-number">{{track.number | zeroPad}}</div>
         <div class="track-title">{{track.title}}</div>
         <md-icon md-svg-icon="{{audio.isPlaying() ? 'templates.volume-up.html' : 'templates.volume-mute.html'}}" ng-if="album._current === $index"></md-icon>
         <div class="track-duration">{{track.duration | playBack}}</div>
-      </md-track>
+      </div>
     </div>
-  </md-content>
+  </md-tracks>
   
 </div>

@@ -7,21 +7,20 @@ angular.module('md.media.player').factory('$album', ['$http', '$q', function ($h
 
   function Album(collection, tracks) {
     this.artist = collection.artistName;
-    this.artworkUrl = collection.artworkUrl60.replace('60x60-50', '600x600');
+    this.artworkUrl = collection.artworkUrl60.replace('60x60bb', '600x600');
     this.release = collection.releaseDate.split('-').shift();
     this.title = collection.collectionName;
     this.trackCount = tracks.length;
     
-    this.tracks = [];
     this._current = 0;
     
-    tracks.forEach(function(track) {
-      this.tracks.push({
+    this.tracks = tracks.map(function (track) {
+      return {
         duration: track.trackTimeMillis / 1000,
         number: track.trackNumber,
         title: track.trackName,
-      });
-    }, this);
+      };
+    });
   }
 
   Album.prototype.currentTrack = function () {
@@ -116,42 +115,44 @@ angular.module('md.media.player').factory('$album', ['$http', '$q', function ($h
 angular.module('md.media.player').factory('$audio', function () {
   'use strict';
   
+  var self = this;
+  
   var audio;
   
-  function buffered() {
-    if(isSet() && audio.buffered.length) {
+  self.buffered = function () {
+    if(self.isSet() && audio.buffered.length) {
       return Math.floor(audio.buffered.end(audio.buffered.length - 1));
     } else {
       return 0;
     }
-  }
+  };
   
-  function currentTime() {
-    return isSet() ? Math.floor(audio.currentTime) : 0;
-  }
+  self.currentTime = function () {
+    return self.isSet() ? Math.floor(audio.currentTime) : 0;
+  };
   
-  function duration() {
-    if(isSet() && !isNaN(audio.duration)) {
+  self.duration = function () {
+    if(self.isSet() && !isNaN(audio.duration)) {
       return Math.floor(audio.duration);
     } else {
       return 0;
     }
-  }
+  };
   
-  function isPlaying() {
-    return isSet() ? !audio.paused : false;
-  }
+  self.isPlaying = function () {
+    return self.isSet() ? !audio.paused : false;
+  };
   
-  function isRepeatEnabled() {
+  self.isRepeatEnabled = function () {
     return audio ? audio.hasAttribute('loop') : false;
-  }
+  };
   
-  function isSet() {
-    return audio ? true : false;
-  }
+  self.isSet = function () {
+    return !!audio;
+  };
   
-  function off(target, callback) {
-    if(isSet()) {
+  self.off = function (target, callback) {
+    if(self.isSet()) {
       if(angular.isArray(target)) {
         target.forEach(function(event) {
           audio.removeEventListener(event, callback);
@@ -160,10 +161,10 @@ angular.module('md.media.player').factory('$audio', function () {
         audio.removeEventListener(target, callback);
       }
     }
-  }
+  };
   
-  function on(target, callback) {
-    if(isSet()) {
+  self.on = function (target, callback) {
+    if(self.isSet()) {
       if(angular.isArray(target)) {
         target.forEach(function(event) {
           audio.addEventListener(event, callback);
@@ -172,63 +173,48 @@ angular.module('md.media.player').factory('$audio', function () {
         audio.addEventListener(target, callback);
       }
     }
-  }
+  };
   
-  function play() {
-    if(isSet()) {
+  self.play = function () {
+    if(self.isSet()) {
       audio.play();
     }
-  }
+  };
   
-  function pause() {
-    if(isSet()) {
+  self.pause = function () {
+    if(self.isSet()) {
       audio.pause();
     }
-  }
+  };
   
-  function repeatOff() {
+  self.repeatOff = function () {
     if(audio) {
       audio.removeAttribute('loop');
     }
-  }
+  };
   
-  function repeatOn() {
+  self.repeatOn = function () {
     if(audio) {
       audio.setAttribute('loop', '');
     }
-  }
+  };
   
-  function set(uri) {
+  self.set = function (uri) {
     if(audio) {
       audio.src = uri;
       audio.load();
     } else {
       audio = new Audio(uri);
     }
-  }
+  };
   
-  function setCurrentTime(time) {
+  self.setCurrentTime = function (time) {
     if(audio) {
       audio.currentTime = time;
     }
-  }
-
-  return {
-    buffered: buffered,
-    currentTime: currentTime,
-    duration: duration,
-    isPlaying: isPlaying,
-    isRepeatEnabled: isRepeatEnabled,
-    isSet: isSet,
-    off: off,
-    on: on,
-    play: play,
-    pause: pause,
-    repeatOff: repeatOff,
-    repeatOn: repeatOn,
-    set: set,
-    setCurrentTime: setCurrentTime
   };
+
+  return self;
 });
 
 angular.module('md.media.player')
@@ -294,7 +280,7 @@ angular.module('md.media.player')
   
   function postLink(scope, element, attrs) {
     var progress = element.find('md-progress-linear');
-    var trackList = element.find('md-content');
+    var trackList = element.find('md-tracks');
     var toolbar = trackList.prop('previousElementSibling');
     var audioEvents = ['loadstart', 'progress', 'timeupdate'];
     
@@ -396,7 +382,7 @@ angular.module('templates.media-player.html', []).run(['$templateCache', functio
     '  \n' +
     '  <md-toolbar class="now-playing-toolbar">\n' +
     '    \n' +
-    '    <md-progress-linear class="md-accent" md-mode="buffer" value="{{getValue()}}" md-buffer-value="{{getBuffer()}}"></md-progress-linear>\n' +
+    '    <md-progress-linear ng-show="audio.isSet()" class="md-accent" md-mode="buffer" value="{{getValue()}}" md-buffer-value="{{getBuffer()}}"></md-progress-linear>\n' +
     '    \n' +
     '    <div layout="row" layout-align="space-between center">\n' +
     '      <div class="md-subhead">{{album.currentTrack().title}}</div>\n' +
@@ -447,16 +433,16 @@ angular.module('templates.media-player.html', []).run(['$templateCache', functio
     '  </md-toolbar>\n' +
     '  \n' +
     '  \n' +
-    '  <md-content layout="column" ng-show="showTracks">\n' +
+    '  <md-tracks layout="column" class="tracks" ng-show="showTracks">\n' +
     '    <div class="track-list" layout="column">\n' +
-    '      <md-track layout="row" layout-align="start center" ng-repeat="track in album.tracks" ng-click="selectTrack(track, $index)">\n' +
+    '      <div layout="row" layout-align="start center" md-ink-ripple class="track" ng-repeat="track in album.tracks" ng-click="selectTrack(track, $index)">\n' +
     '        <div class="track-number">{{track.number | zeroPad}}</div>\n' +
     '        <div class="track-title">{{track.title}}</div>\n' +
     '        <md-icon md-svg-icon="{{audio.isPlaying() ? \'templates.volume-up.html\' : \'templates.volume-mute.html\'}}" ng-if="album._current === $index"></md-icon>\n' +
     '        <div class="track-duration">{{track.duration | playBack}}</div>\n' +
-    '      </md-track>\n' +
+    '      </div>\n' +
     '    </div>\n' +
-    '  </md-content>\n' +
+    '  </md-tracks>\n' +
     '  \n' +
     '</div>');
 }]);

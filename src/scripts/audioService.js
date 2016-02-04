@@ -1,42 +1,44 @@
 angular.module('md.media.player').factory('$audio', function () {
   'use strict';
   
+  var self = this;
+  
   var audio;
   
-  function buffered() {
-    if(isSet() && audio.buffered.length) {
+  self.buffered = function () {
+    if(self.isSet() && audio.buffered.length) {
       return Math.floor(audio.buffered.end(audio.buffered.length - 1));
     } else {
       return 0;
     }
-  }
+  };
   
-  function currentTime() {
-    return isSet() ? Math.floor(audio.currentTime) : 0;
-  }
+  self.currentTime = function () {
+    return self.isSet() ? Math.floor(audio.currentTime) : 0;
+  };
   
-  function duration() {
-    if(isSet() && !isNaN(audio.duration)) {
+  self.duration = function () {
+    if(self.isSet() && !isNaN(audio.duration)) {
       return Math.floor(audio.duration);
     } else {
       return 0;
     }
-  }
+  };
   
-  function isPlaying() {
-    return isSet() ? !audio.paused : false;
-  }
+  self.isPlaying = function () {
+    return self.isSet() ? !audio.paused : false;
+  };
   
-  function isRepeatEnabled() {
+  self.isRepeatEnabled = function () {
     return audio ? audio.hasAttribute('loop') : false;
-  }
+  };
   
-  function isSet() {
-    return audio ? true : false;
-  }
+  self.isSet = function () {
+    return !!audio;
+  };
   
-  function off(target, callback) {
-    if(isSet()) {
+  self.off = function (target, callback) {
+    if(self.isSet()) {
       if(angular.isArray(target)) {
         target.forEach(function(event) {
           audio.removeEventListener(event, callback);
@@ -45,10 +47,10 @@ angular.module('md.media.player').factory('$audio', function () {
         audio.removeEventListener(target, callback);
       }
     }
-  }
+  };
   
-  function on(target, callback) {
-    if(isSet()) {
+  self.on = function (target, callback) {
+    if(self.isSet()) {
       if(angular.isArray(target)) {
         target.forEach(function(event) {
           audio.addEventListener(event, callback);
@@ -57,61 +59,46 @@ angular.module('md.media.player').factory('$audio', function () {
         audio.addEventListener(target, callback);
       }
     }
-  }
+  };
   
-  function play() {
-    if(isSet()) {
+  self.play = function () {
+    if(self.isSet()) {
       audio.play();
     }
-  }
+  };
   
-  function pause() {
-    if(isSet()) {
+  self.pause = function () {
+    if(self.isSet()) {
       audio.pause();
     }
-  }
+  };
   
-  function repeatOff() {
+  self.repeatOff = function () {
     if(audio) {
       audio.removeAttribute('loop');
     }
-  }
+  };
   
-  function repeatOn() {
+  self.repeatOn = function () {
     if(audio) {
       audio.setAttribute('loop', '');
     }
-  }
+  };
   
-  function set(uri) {
+  self.set = function (uri) {
     if(audio) {
       audio.src = uri;
       audio.load();
     } else {
       audio = new Audio(uri);
     }
-  }
+  };
   
-  function setCurrentTime(time) {
+  self.setCurrentTime = function (time) {
     if(audio) {
       audio.currentTime = time;
     }
-  }
-
-  return {
-    buffered: buffered,
-    currentTime: currentTime,
-    duration: duration,
-    isPlaying: isPlaying,
-    isRepeatEnabled: isRepeatEnabled,
-    isSet: isSet,
-    off: off,
-    on: on,
-    play: play,
-    pause: pause,
-    repeatOff: repeatOff,
-    repeatOn: repeatOn,
-    set: set,
-    setCurrentTime: setCurrentTime
   };
+
+  return self;
 });

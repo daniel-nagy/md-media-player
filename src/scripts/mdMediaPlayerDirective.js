@@ -61,7 +61,7 @@ angular.module('md.media.player')
   
   function postLink(scope, element, attrs) {
     var progress = element.find('md-progress-linear');
-    var trackList = element.find('md-content');
+    var trackList = element.find('md-tracks');
     var toolbar = trackList.prop('previousElementSibling');
     var audioEvents = ['loadstart', 'progress', 'timeupdate'];
     

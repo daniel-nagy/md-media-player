@@ -5,21 +5,20 @@ angular.module('md.media.player').factory('$album', ['$http', '$q', function ($h
 
   function Album(collection, tracks) {
     this.artist = collection.artistName;
-    this.artworkUrl = collection.artworkUrl60.replace('60x60-50', '600x600');
+    this.artworkUrl = collection.artworkUrl60.replace('60x60bb', '600x600');
     this.release = collection.releaseDate.split('-').shift();
     this.title = collection.collectionName;
     this.trackCount = tracks.length;
     
-    this.tracks = [];
     this._current = 0;
     
-    tracks.forEach(function(track) {
-      this.tracks.push({
+    this.tracks = tracks.map(function (track) {
+      return {
         duration: track.trackTimeMillis / 1000,
         number: track.trackNumber,
         title: track.trackName,
-      });
-    }, this);
+      };
+    });
   }
 
   Album.prototype.currentTrack = function () {

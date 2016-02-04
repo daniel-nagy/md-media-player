@@ -41,7 +41,7 @@ module.exports = function (grunt) {
       },
       build: {
         files: {
-          'dist/md-media-player.js': ['app/md-media-player/**/*.js', '.temp/templates.js']
+          'dist/md-media-player.js': ['src/**/*.js', '.temp/templates.js']
         }
       }
     },
@@ -82,7 +82,7 @@ module.exports = function (grunt) {
           useStrict: true,
         },
         files: {
-          '.temp/templates.js': 'app/md-media-player/**/*.html'
+          '.temp/templates.js': 'src/**/*.html'
         }
       }
     },
@@ -95,7 +95,7 @@ module.exports = function (grunt) {
         reporter: require('jshint-stylish'),
         force: true
       },
-      build: 'app/md-media-player/**/*.js',
+      build: 'src/**/*.js',
       app: ['app/app.js', 'app/scripts/**/*.js']
     },
 
@@ -108,7 +108,7 @@ module.exports = function (grunt) {
       },
       build: {
         files: {
-          'dist/md-media-player.css': 'app/md-media-player/styles/md-media-player.less'
+          'dist/md-media-player.css': 'src/styles/md-media-player.less'
         }
       }
     },
@@ -139,15 +139,15 @@ module.exports = function (grunt) {
         files: 'app/templates/**/*.html'
       },
       buildLess: {
-        files: 'app/md-media-player/**/*.less',
+        files: 'src/**/*.less',
         tasks: ['less:build', 'autoprefixer:build'],
       },
       buildScripts: {
-        files: 'app/md-media-player/**/*.js',
+        files: 'src/**/*.js',
         tasks: ['jshint:build', 'concat:build'],
       },
       buildTemplates: {
-        files: 'app/md-media-player/**/*.html',
+        files: 'src/**/*.html',
         tasks: ['html2js:build', 'concat:build'],
         // tasks: ['concat:build']
       },

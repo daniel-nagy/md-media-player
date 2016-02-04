@@ -14,7 +14,8 @@ md-media-player {
     > img {
       flex: 0 0 auto;
       display: flex;
-      width: 100%;
+      width: 288px;
+      height: 288px;
     }
     
     > .now-playing-toolbar {
@@ -23,7 +24,8 @@ md-media-player {
       > md-progress-linear {
         position: absolute;
         height: 3px;
-        top: -6px;
+        top: -3px;
+        /* top: -6px; */
         
         &:hover {
           cursor: pointer;
@@ -31,11 +33,11 @@ md-media-player {
         
         > .md-container {
           height: 3px;
-          top: 3px;
+          /* top: 3px; */
           
-          &:not(.md-ready) {
+          /* &:not(.md-ready) {
             transform: translate(0, 3px) scale(1, 0);
-          }
+          } */
           
           > .md-dashed:before {
             height: 3px;
@@ -117,16 +119,20 @@ md-media-player {
       }
     }
     
-    > md-content {
+    > .tracks {
       flex: 1 1 auto;
       background-color: #fff;
+      position: relative;
+      overflow-y: auto;
+      overflow-x: hidden;
+      -webkit-overflow-scrolling: touch;
       
       > .track-list {
         width: 100%;
         padding: 8px 0;
         position: absolute;
         
-        > md-track {
+        > .track {
           position: relative;
           height: 48px;
           padding: 0 16px;
@@ -178,8 +184,8 @@ md-media-player {
           display: none;
         }
       }
-      > md-content.ng-hide:not(.ng-hide-animate) {
-        display: block !important;
+      > .tracks.ng-hide:not(.ng-hide-animate) {
+        display: flex !important;
       }
     }
   }
@@ -198,7 +204,7 @@ md-media-player {
         }
       }
       
-      > md-content {
+      > .tracks {
         height: 250px;
         transition: height 0.3s ease-in-out;
         
