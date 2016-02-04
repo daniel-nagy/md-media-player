@@ -117,16 +117,6 @@ angular.module('md.media.player')
   };
 }])
 
-.directive('mdTrack', ['$mdInkRipple', function ($mdInkRipple) {
-  'use strict';
-  
-  return {
-    link: function (scope, element) {
-      $mdInkRipple.attach(scope, element);
-    }
-  };
-}])
-
 .filter('zeroPad', function () {
   'use strict';
   
