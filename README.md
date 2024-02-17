@@ -2,10 +2,6 @@
 
 This module provides a HTML5 audio API written in AngularJS for use with [Angular Material](https://material.angularjs.org/latest/#/).
 
-## Demo
-
-http://danielnagy.me/md-media-player
-
 ## Installation
 This package is installable through the Bower package manager.
 
